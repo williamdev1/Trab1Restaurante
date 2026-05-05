@@ -2,7 +2,7 @@ using System;
 
 namespace Program;
 
-public class Relatorio
+public class Relatorio : Pedido
 {
-
+    
 }

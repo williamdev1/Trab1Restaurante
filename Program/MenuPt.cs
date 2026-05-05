@@ -4,7 +4,7 @@ namespace Program;
 
 public class MenuPt : IMenu
 {
-    public void ExibirMenu()
+    public void ExibirMenu() //feito
     {
         Console.WriteLine("Menu Principal");
         Console.WriteLine("1. Gerenciamento");
@@ -12,15 +12,14 @@ public class MenuPt : IMenu
         Console.WriteLine("3. Relatórios");
         Console.WriteLine("4. Sair");
     }
-    public void Gerenciamento()
+    public void Gerenciamento() // feito
     {
-        Console.WriteLine("1 - Cadastrar Item");
+        Console.WriteLine("1 - Cadastrar Item"); 
         Console.WriteLine("2 - Editar Item");
-        Console.WriteLine("3 - Deletar Item");
+        Console.WriteLine("3 - Deletar Item"); 
         Console.WriteLine("4 - Listar Itens");
         Console.WriteLine("0 - Voltar");
     }
-
     public void Pedidos()
     {
         Console.WriteLine("1 - Novo Pedido");
@@ -28,7 +27,6 @@ public class MenuPt : IMenu
         Console.WriteLine("3 - Pagar Pedido");
         Console.WriteLine("0 - Voltar");
     }
-
     public void Relatorios()
     {
         Console.WriteLine("Selecione o Relatório.");
@@ -38,6 +36,5 @@ public class MenuPt : IMenu
         Console.WriteLine("4 - Consumo por Item");
         Console.WriteLine("0 - Voltar");
     }
-    public static void CadastrarItem();
-
+    
 }

@@ -2,7 +2,7 @@ using System;
 
 namespace Program;
 
-public class Item
+public class ItemPedido
 {   
     public int Codigo { get; set; }
     public string Categoria { get; set; }
