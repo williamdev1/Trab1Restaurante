@@ -38,12 +38,21 @@ class Program
         Cardapio cardapio = new Cardapio();
         cardapio.InicializarMock();
         List<Pedido> pedidos = new List<Pedido>();
+        List<Pessoa> clientes = new List<Pessoa>
+        {
+            new Pessoa { Nome = "João Silva", Email = "joaosilva@gmail.com" },
+            new Pessoa { Nome = "Maria Oliveira", Email = "mariaoliveira@gmail.com" },
+            new Pessoa { Nome = "Carlos Santos", Email = "carlossantos@gmail.com" },
+            new Pessoa { Nome = "Ana Pereira", Email = "anapereira@gmail.com" },
+            new Pessoa { Nome = "Pedro Costa", Email = "pedrocosta@gmail.com" }
+        };
         Relatorio relatorio = new Relatorio();
-        pedidos.Add(new Pedido { Cliente = new Pessoa { Nome = "João Silva", Email = "joaosilva@gmail.com" } });
-        pedidos.Add(new Pedido { Cliente = new Pessoa { Nome = "Maria Oliveira", Email = "mariaoliveira@gmail.com" } });
-        pedidos.Add(new Pedido { Cliente = new Pessoa { Nome = "Carlos Santos", Email = "carlossantos@gmail.com" } });
-        pedidos.Add(new Pedido { Cliente = new Pessoa { Nome = "Ana Pereira", Email = "anapereira@gmail.com" } });
-        pedidos.Add(new Pedido { Cliente = new Pessoa { Nome = "Pedro Costa", Email = "pedrocosta@gmail.com" } });
+
+        pedidos.Add(new Pedido { Cliente = clientes[0] });
+        pedidos.Add(new Pedido { Cliente = clientes[1] });
+        pedidos.Add(new Pedido { Cliente = clientes[2] });
+        pedidos.Add(new Pedido { Cliente = clientes[3] });
+        pedidos.Add(new Pedido { Cliente = clientes[4] });
 
         Console.WriteLine("Bem vindo ao restaurante! / Welcome to the restaurant!");
         Console.WriteLine("Selecione o idioma / Select the language:");
@@ -279,8 +288,17 @@ class Program
                             string nomeCliente = Console.ReadLine() ?? string.Empty;
                             Console.WriteLine("Email do cliente: ");
                             string emailCliente = Console.ReadLine() ?? string.Empty;
-                            pedido.Cliente = new Pessoa { Nome = nomeCliente, Email = emailCliente };
+                            foreach (var cliente in clientes)
+                            {
+                                if (cliente.Nome == nomeCliente && cliente.Email == emailCliente)
+                                {
+                                    pedido.Cliente = cliente;
+                                    Console.WriteLine("Cliente já registrado. Vinculado ao pedido!");
+                                    break;
+                                }
+                            }
                         }
+
                     }
                     else if (opcaopedidos == 2)
                     {
@@ -707,7 +725,15 @@ class Program
                             string nomeCliente = Console.ReadLine() ?? string.Empty;
                             Console.WriteLine("Customer email: ");
                             string emailCliente = Console.ReadLine() ?? string.Empty;
-                            pedido.Cliente = new Pessoa { Nome = nomeCliente, Email = emailCliente };
+                            foreach (var cliente in clientes)
+                            {
+                                if (cliente.Nome == nomeCliente && cliente.Email == emailCliente)
+                                {
+                                    pedido.Cliente = cliente;
+                                    Console.WriteLine("Customer already registered. Linked to the order!");
+                                    break;
+                                }
+                            }
                         }
                     }
                     else if (opcaopedidos == 2)
