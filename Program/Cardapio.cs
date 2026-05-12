@@ -4,124 +4,138 @@ namespace Program;
 
 public class Cardapio
 {
-    public static List<ItemPedido> cardapio = new List<ItemPedido>();
+    public List<ItemPedido> Itens { get; set; } = new List<ItemPedido>();
 
-    public static void CadastrarItem()
+    public void CadastrarItem(int codigo, Categoria categoria, bool oferecido, string descricao, string descricaoEn, decimal preco)
     {
-        Console.WriteLine("Qual a senha de acesso?");
+        if (Itens.Exists(i => i.Codigo == codigo))
+        {
+            throw new ArgumentException("Já existe um item com esse código.");
+        }
+
         ItemPedido item = new ItemPedido();
-        int senha = int.Parse(Console.ReadLine());
-        if (senha == 0000)
-        {
-            Console.WriteLine("Acesso permitido!");
-
-            Console.WriteLine("Código: ");
-            int cod = int.Parse(Console.ReadLine());
-            item.Codigo = cod;
-            
-            Console.WriteLine("Categoria: ");
-            string cat = Console.ReadLine();
-            item.Categoria = cat;
-            
-            Console.WriteLine("Oferecido (true/false): ");
-            bool ofer = bool.Parse(Console.ReadLine());
-            item.Oferecido = ofer;
-            
-            Console.WriteLine("Descrição: ");
-            string des = Console.ReadLine();
-            item.Descricao = des;
-            
-            Console.WriteLine("Preço: ");
-            decimal pre = decimal.Parse(Console.ReadLine());
-            item.Preco = pre;
-
-            cardapio.Add(item);
-            Console.WriteLine("Item cadastrado com sucesso!");
-
-        }
-        else
-        {
-            Console.WriteLine("Acesso negado!");
-            return;
-        }
+        item.Codigo = codigo;
+        item.Categoria = categoria;
+        item.Oferecido = oferecido;
+        item.Descricao = descricao;
+        item.DescricaoEn = descricaoEn;
+        item.Preco = preco;
+        Itens.Add(item);
     }
 
-    public static void EditarItem()
+    public bool EditarItem(int codigo, Categoria categoria, bool oferecido, string descricao, string descricaoEn, decimal preco)
     {
-        Console.WriteLine("Qual a senha de acesso?");
-        int senha = int.Parse(Console.ReadLine());
-        if (senha == 0000)
+        foreach (var item in Itens)
         {
-            Console.WriteLine("Acesso permitido!");
-
-            Console.WriteLine("Codigo: ");
-            int cod = int.Parse(Console.ReadLine());
-            for (int i = 0; i < cardapio.Count; i++)
+            if (item.Codigo == codigo)
             {
-                if (cardapio[i].Codigo == cod)
-                {
-                    Console.WriteLine("Categoria: ");
-                    string cat = Console.ReadLine();
-                    cardapio[i].Categoria = cat;
-            
-                    Console.WriteLine("Oferecido (true/false): ");
-                    bool ofer = bool.Parse(Console.ReadLine());
-                    cardapio[i].Oferecido = ofer;
-            
-                    Console.WriteLine("Descrição: ");
-                    string des = Console.ReadLine();
-                    cardapio[i].Descricao = des;
-            
-                    Console.WriteLine("Preço: ");
-                    decimal pre = decimal.Parse(Console.ReadLine());
-                    cardapio[i].Preco = pre;
-
-                    Console.WriteLine("Item editado com sucesso!");
-                }
-        }
-        }
-        else
-        {
-            Console.WriteLine("Acesso negado!");
-            return;
-        }
-    }
-
-    public static void DeletarItem()
-    {   
-        Console.WriteLine("Qual a senha de acesso?");
-        int senha = int.Parse(Console.ReadLine());
-        if (senha == 0000)
-        {
-            Console.WriteLine("Acesso permitido!");
-
-            Console.WriteLine("Codigo: ");
-            int cod = int.Parse(Console.ReadLine());
-            for (int i = 0; i < cardapio.Count; i++)
-            {
-                if(cardapio[i].Codigo == cod)
-                {
-                    cardapio.Remove(cardapio[i]);
-                    Console.WriteLine("Item deletado com sucesso!");
-                }
+                item.Categoria = categoria;
+                item.Oferecido = oferecido;
+                item.Descricao = descricao;
+                item.DescricaoEn = descricaoEn;
+                item.Preco = preco;
+                return true;
             }
         }
+
+        return false;
+    }
+
+    public bool DeletarItem(int codigo)
+    {
+        foreach (var item in Itens)
+        {
+            if (item.Codigo == codigo)
+            {
+                Itens.Remove(item);
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public void ListarItem(string lang = "pt")
+    {
+        string code;
+        string categoria;
+        string oferecido;
+        string descricao;
+        string preco;
+
+        if (lang == "en")
+        {
+            code = "Code";
+            categoria = "Category";
+            oferecido = "Offered";
+            descricao = "Description";
+            preco = "Price";
+        }
         else
         {
-            Console.WriteLine("Acesso negado!");
-            return;
+            code = "Código";
+            categoria = "Categoria";
+            oferecido = "Oferecido";
+            descricao = "Descrição";
+            preco = "Preço";
+        }
+
+        foreach (var item in Itens.Where(i => i.Oferecido))
+        {   
+            string desc;
+            if (lang == "en")
+            {
+                desc = item.DescricaoEn;
+                code = "Code";
+            }
+            else
+            {
+                desc = item.Descricao;
+                code = "Código";
+            }
+
+            Console.WriteLine($"{code}: {item.Codigo} - {desc} - {item.Preco}");
+        }
+        }
+
+    public void ListarItensOferecidos(string lang = "pt")
+    {
+        foreach (var item in Itens.Where(i => i.Oferecido))
+        {
+            string desc;
+            string code;
+
+            if (lang == "en")
+            {
+                desc = item.DescricaoEn;
+                code = "Code";
+            }
+            else
+            {
+                desc = item.Descricao;
+                code = "Código";
+            }
+
+            Console.WriteLine($"{code}: {item.Codigo} - {desc} - {item.Preco}");
         }
     }
-    
-    public static void ListarItem()
+
+    public void InicializarMock()
     {
-        foreach (var item in cardapio)
-        {
-            Console.WriteLine($"Código: {item.Codigo}");
-            Console.WriteLine($"Categoria: {item.Categoria}");
-            Console.WriteLine($"Oferecido: {item.Oferecido}");
-            Console.WriteLine($"Descrição: {item.Descricao}");
-            Console.WriteLine($"Preço: {item.Preco}");
-        }
+        Itens.Add(new ItemPedido { Codigo = 1, Categoria = Categoria.Entradas, Oferecido = true, Descricao = "Salada Caesar", DescricaoEn = "Caesar Salad", Preco = 18.50m });
+        Itens.Add(new ItemPedido { Codigo = 2, Categoria = Categoria.Entradas, Oferecido = true, Descricao = "Bruschetta", DescricaoEn = "Bruschetta", Preco = 15.00m });
+        Itens.Add(new ItemPedido { Codigo = 3, Categoria = Categoria.Entradas, Oferecido = true, Descricao = "Pão", DescricaoEn = "Bread", Preco = 22.00m });
+
+        Itens.Add(new ItemPedido { Codigo = 4, Categoria = Categoria.Bebidas, Oferecido = true, Descricao = "Suco de Laranja", DescricaoEn = "Orange Juice", Preco = 7.00m });
+        Itens.Add(new ItemPedido { Codigo = 5, Categoria = Categoria.Bebidas, Oferecido = true, Descricao = "Água", DescricaoEn = "Water", Preco = 5.00m });
+        Itens.Add(new ItemPedido { Codigo = 6, Categoria = Categoria.Bebidas, Oferecido = true, Descricao = "Cerveja", DescricaoEn = "Beer", Preco = 12.00m });
+
+        Itens.Add(new ItemPedido { Codigo = 7, Categoria = Categoria.PratosPrincipais, Oferecido = true, Descricao = "Filé de Frango", DescricaoEn = "Chicken Breast", Preco = 28.90m });
+        Itens.Add(new ItemPedido { Codigo = 8, Categoria = Categoria.PratosPrincipais, Oferecido = true, Descricao = "Bife à Parmegiana", DescricaoEn = "Parmesan Steak", Preco = 35.00m });
+        Itens.Add(new ItemPedido { Codigo = 9, Categoria = Categoria.PratosPrincipais, Oferecido = true, Descricao = "Salmão", DescricaoEn = "Salmon", Preco = 40.00m });
+
+        Itens.Add(new ItemPedido { Codigo = 10, Categoria = Categoria.Sobremesas, Oferecido = true, Descricao = "Pudim", DescricaoEn = "Pudding", Preco = 12.00m });
+        Itens.Add(new ItemPedido { Codigo = 11, Categoria = Categoria.Sobremesas, Oferecido = true, Descricao = "Torta de Maçã", DescricaoEn = "Apple Pie", Preco = 14.00m });
+        Itens.Add(new ItemPedido { Codigo = 12, Categoria = Categoria.Sobremesas, Oferecido = true, Descricao = "Mousse de Chocolate", DescricaoEn = "Chocolate Mousse", Preco = 10.00m });
     }
 }
