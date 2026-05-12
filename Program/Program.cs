@@ -106,10 +106,10 @@ class Program
                         }
 
                         bool ofer;
-                        Console.WriteLine("Oferecido (true/false): ");
+                        Console.WriteLine("Oferecido (True/False): ");
                         while (!bool.TryParse(Console.ReadLine(), out ofer))
                         {
-                            Console.WriteLine("Valor inválido. Digite true ou false:");
+                            Console.WriteLine("Valor inválido. Digite True ou False:");
                         }
 
                         Console.WriteLine("Descrição: ");
@@ -162,10 +162,10 @@ class Program
                         }
 
                         bool ofer;
-                        Console.WriteLine("Novo status de oferecimento (true/false): ");
+                        Console.WriteLine("Novo status de oferecimento (True/False): ");
                         while (!bool.TryParse(Console.ReadLine(), out ofer))
                         {
-                            Console.WriteLine("Valor inválido. Digite true ou false:");
+                            Console.WriteLine("Valor inválido. Digite True ou False:");
                         }
 
                         Console.WriteLine("Nova descrição: ");
@@ -267,10 +267,10 @@ class Program
                         }
 
                         bool registrado;
-                        Console.WriteLine("Cliente registrado? (true/false)");
+                        Console.WriteLine("Cliente registrado? (True/False)");
                         while (!bool.TryParse(Console.ReadLine(), out registrado))
                         {
-                            Console.WriteLine("Valor inválido. Digite true ou false:");
+                            Console.WriteLine("Valor inválido. Digite True ou False:");
                         }
 
                         if (registrado)
@@ -379,17 +379,17 @@ class Program
                             Console.WriteLine($"Valor total: {pedido.ValorTotal}");
 
                             bool dividir;
-                            Console.WriteLine("Dividir conta? (true/false)");
+                            Console.WriteLine("Dividir conta? (True/False)");
                             while (!bool.TryParse(Console.ReadLine(), out dividir))
                             {
-                                Console.WriteLine("Valor inválido. Digite true ou false:");
+                                Console.WriteLine("Valor inválido. Digite True ou False:");
                             }
 
                             bool confirmar;
-                            Console.WriteLine("Confirmar pagamento? (true/false)");
+                            Console.WriteLine("Confirmar pagamento? (True/False)");
                             while (!bool.TryParse(Console.ReadLine(), out confirmar))
                             {
-                                Console.WriteLine("Valor inválido. Digite true ou false:");
+                                Console.WriteLine("Valor inválido. Digite True ou False:");
                             }
 
                             try
@@ -553,10 +553,10 @@ class Program
                         }
 
                         bool ofer;
-                        Console.WriteLine("Offered (true/false): ");
+                        Console.WriteLine("Offered (True/False): ");
                         while (!bool.TryParse(Console.ReadLine(), out ofer))
                         {
-                            Console.WriteLine("Invalid value. Type true or false:");
+                            Console.WriteLine("Invalid value. Type True or False:");
                         }
 
                         Console.WriteLine("Description: ");
@@ -599,10 +599,10 @@ class Program
                         }
 
                         bool ofer;
-                        Console.WriteLine("New offered status (true/false): ");
+                        Console.WriteLine("New offered status (True/False): ");
                         while (!bool.TryParse(Console.ReadLine(), out ofer))
                         {
-                            Console.WriteLine("Invalid value. Type true or false:");
+                            Console.WriteLine("Invalid value. Type True or False:");
                         }
 
                         Console.WriteLine("New description: ");
@@ -695,10 +695,10 @@ class Program
                         }
 
                         bool registrado;
-                        Console.WriteLine("Registered customer? (true/false)");
+                        Console.WriteLine("Registered customer? (True/False)");
                         while (!bool.TryParse(Console.ReadLine(), out registrado))
                         {
-                            Console.WriteLine("Invalid value. Type true or false:");
+                            Console.WriteLine("Invalid value. Type True or False:");
                         }
 
                         if (registrado)
@@ -807,17 +807,17 @@ class Program
                             Console.WriteLine($"Total value: {pedido.ValorTotal}");
 
                             bool dividir;
-                            Console.WriteLine("Split bill? (true/false)");
+                            Console.WriteLine("Split bill? (True/False)");
                             while (!bool.TryParse(Console.ReadLine(), out dividir))
                             {
-                                Console.WriteLine("Invalid value. Enter true or false:");
+                                Console.WriteLine("Invalid value. Enter True or False:");
                             }
 
                             bool confirmar;
-                            Console.WriteLine("Confirm payment? (true/false)");
+                            Console.WriteLine("Confirm payment? (True/False)");
                             while (!bool.TryParse(Console.ReadLine(), out confirmar))
                             {
-                                Console.WriteLine("Invalid value. Enter true or false:");
+                                Console.WriteLine("Invalid value. Enter True or False:");
                             }
 
                             try
