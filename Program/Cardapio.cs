@@ -8,11 +8,6 @@ public class Cardapio
 
     public void CadastrarItem(int codigo, Categoria categoria, bool oferecido, string descricao, string descricaoEn, decimal preco)
     {
-        if (Itens.Exists(i => i.Codigo == codigo))
-        {
-            throw new ArgumentException("Já existe um item com esse código.");
-        }
-
         ItemPedido item = new ItemPedido();
         item.Codigo = codigo;
         item.Categoria = categoria;
@@ -55,70 +50,70 @@ public class Cardapio
         return false;
     }
 
-    public void ListarItem(string lang = "pt")
-    {
-        string code;
-        string categoria;
-        string oferecido;
-        string descricao;
-        string preco;
+    // public void ListarItem(string lang = "pt")
+    // {
+    //     string code;
+    //     string categoria;
+    //     string oferecido;
+    //     string descricao;
+    //     string preco;
 
-        if (lang == "en")
-        {
-            code = "Code";
-            categoria = "Category";
-            oferecido = "Offered";
-            descricao = "Description";
-            preco = "Price";
-        }
-        else
-        {
-            code = "Código";
-            categoria = "Categoria";
-            oferecido = "Oferecido";
-            descricao = "Descrição";
-            preco = "Preço";
-        }
+    //     if (lang == "en")
+    //     {
+    //         code = "Code";
+    //         categoria = "Category";
+    //         oferecido = "Offered";
+    //         descricao = "Description";
+    //         preco = "Price";
+    //     }
+    //     else
+    //     {
+    //         code = "Código";
+    //         categoria = "Categoria";
+    //         oferecido = "Oferecido";
+    //         descricao = "Descrição";
+    //         preco = "Preço";
+    //     }
 
-        foreach (var item in Itens.Where(i => i.Oferecido))
-        {   
-            string desc;
-            if (lang == "en")
-            {
-                desc = item.DescricaoEn;
-                code = "Code";
-            }
-            else
-            {
-                desc = item.Descricao;
-                code = "Código";
-            }
+    //     foreach (var item in Itens.Where(i => i.Oferecido))
+    //     {   
+    //         string desc;
+    //         if (lang == "en")
+    //         {
+    //             desc = item.DescricaoEn;
+    //             code = "Code";
+    //         }
+    //         else
+    //         {
+    //             desc = item.Descricao;
+    //             code = "Código";
+    //         }
 
-            Console.WriteLine($"{code}: {item.Codigo} - {desc} - {item.Preco}");
-        }
-        }
+    //         Console.WriteLine($"{code}: {item.Codigo} - {desc} - {item.Preco}");
+    //     }
+    //     }
 
-    public void ListarItensOferecidos(string lang = "pt")
-    {
-        foreach (var item in Itens.Where(i => i.Oferecido))
-        {
-            string desc;
-            string code;
+    // public void ListarItensOferecidos(string lang = "pt")
+    // {
+    //     foreach (var item in Itens.Where(i => i.Oferecido))
+    //     {
+    //         string desc;
+    //         string code;
 
-            if (lang == "en")
-            {
-                desc = item.DescricaoEn;
-                code = "Code";
-            }
-            else
-            {
-                desc = item.Descricao;
-                code = "Código";
-            }
+    //         if (lang == "en")
+    //         {
+    //             desc = item.DescricaoEn;
+    //             code = "Code";
+    //         }
+    //         else
+    //         {
+    //             desc = item.Descricao;
+    //             code = "Código";
+    //         }
 
-            Console.WriteLine($"{code}: {item.Codigo} - {desc} - {item.Preco}");
-        }
-    }
+    //         Console.WriteLine($"{code}: {item.Codigo} - {desc} - {item.Preco}");
+    //     }
+    // }
 
     public void InicializarMock()
     {

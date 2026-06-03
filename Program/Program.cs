@@ -4,34 +4,6 @@ namespace Program;
 
 class Program
 {
-    void MostrarPedidos(List<Pedido> pedidos, string lang = "pt")
-    {
-        if (pedidos.Count == 0)
-        {
-            if (lang == "en")
-            {
-                Console.WriteLine("No orders created yet.");
-            }
-            else
-            {
-                Console.WriteLine("Nenhum pedido foi criado ainda.");
-            }
-            return;
-        }
-
-        foreach (var pedido in pedidos)
-        {
-            if (lang == "en")
-            {
-                Console.WriteLine($"ID: {pedido.IdPedido}, Customer: {pedido.Cliente?.Nome ?? "Anonymous"}, Total: {pedido.ValorTotal}, Paid: {pedido.Pago}");
-            }
-            else
-            {
-                Console.WriteLine($"ID: {pedido.IdPedido}, Cliente: {pedido.Cliente?.Nome ?? "Anônimo"}, Total: {pedido.ValorTotal}, Pago: {pedido.Pago}");
-            }
-        }
-    }
-
     static void Main(string[] args)
     {
         Program programa = new Program();
@@ -54,8 +26,6 @@ class Program
         pedidos.Add(new Pedido { Cliente = clientes[3] });
         pedidos.Add(new Pedido { Cliente = clientes[4] });
 
-        Console.WriteLine("Bem vindo ao restaurante! / Welcome to the restaurant!");
-        Console.WriteLine("Selecione o idioma / Select the language:");
         Console.WriteLine("1. Português - PT");
         Console.WriteLine("2. English - EN");
 
@@ -67,11 +37,11 @@ class Program
 
         if (escolha == 1)
         {
-            MenuPt menuPt = new MenuPt();
+            IMenu menu = new MenuPt();
             int opcao;
             do
             {
-                menuPt.ExibirMenu();
+                menu.ExibirMenu();
                 while (!int.TryParse(Console.ReadLine(), out opcao) || opcao < 0 || opcao > 4)
                 {
                     Console.WriteLine("Opção inválida. Digite um número entre 0 e 4:");
@@ -79,7 +49,7 @@ class Program
 
                 if (opcao == 1)
                 {
-                    menuPt.Gerenciamento();
+                    menu.Gerenciamento();
                     int opcaoGerenciamento;
                     while (!int.TryParse(Console.ReadLine(), out opcaoGerenciamento) || opcaoGerenciamento < 0 || opcaoGerenciamento > 4)
                     {
@@ -88,147 +58,19 @@ class Program
 
                     if (opcaoGerenciamento == 1)
                     {
-                        Console.WriteLine("Senha de acesso: ");
-                        string senha = Console.ReadLine() ?? string.Empty;
-                        if (senha != "0000")
-                        {
-                            Console.WriteLine("Acesso negado!");
-                            continue;
-                        }
-
-                        Console.WriteLine("Acesso permitido!");
-
-                        int cod;
-                        Console.WriteLine("Código: ");
-                        while (!int.TryParse(Console.ReadLine(), out cod))
-                        {
-                            Console.WriteLine("Valor inválido. Digite um número válido:");
-                        }
-
-                        Console.WriteLine("Categoria (Entradas, Bebidas, PratosPrincipais, Sobremesas): ");
-                        string catStr = Console.ReadLine() ?? string.Empty;
-                        Categoria cat;
-                        if (!Categoria.TryParse(catStr, out cat))
-                        {
-                            Console.WriteLine("Categoria inválida!");
-                            continue;
-                        }
-
-                        bool ofer;
-                        Console.WriteLine("Oferecido (True/False): ");
-                        while (!bool.TryParse(Console.ReadLine(), out ofer))
-                        {
-                            Console.WriteLine("Valor inválido. Digite True ou False:");
-                        }
-
-                        Console.WriteLine("Descrição: ");
-                        string desc = Console.ReadLine() ?? string.Empty;
-                        Console.WriteLine("Descrição em inglês: ");
-                        string descEn = Console.ReadLine() ?? string.Empty;
-
-                        decimal preco;
-                        Console.WriteLine("Preço: ");
-                        while (!decimal.TryParse(Console.ReadLine(), out preco))
-                        {
-                            Console.WriteLine("Valor inválido. Digite um número decimal válido:");
-                        }
-
-                        try
-                        {
-                            cardapio.CadastrarItem(cod, cat, ofer, desc, descEn, preco);
-                            Console.WriteLine("Item cadastrado com sucesso!");
-                        }
-                        catch (ArgumentException ex)
-                        {
-                            Console.WriteLine(ex.Message);
-                        }
+                        menu.CadastrarItem(cardapio);
                     }
                     else if (opcaoGerenciamento == 2)
                     {
-                        Console.WriteLine("Senha de acesso: ");
-                        string senha = Console.ReadLine() ?? string.Empty;
-                        if (senha != "0000")
-                        {
-                            Console.WriteLine("Acesso negado!");
-                            continue;
-                        }
-
-                        Console.WriteLine("Acesso permitido!");
-
-                        int cod;
-                        Console.WriteLine("Código do item a ser editado: ");
-                        while (!int.TryParse(Console.ReadLine(), out cod))
-                        {
-                            Console.WriteLine("Valor inválido. Digite um número válido:");
-                        }
-
-                        Console.WriteLine("Nova categoria (Entradas, Bebidas, PratosPrincipais, Sobremesas): ");
-                        string catStr = Console.ReadLine() ?? string.Empty;
-                        if (!Categoria.TryParse(catStr, out Categoria cat))
-                        {
-                            Console.WriteLine("Categoria inválida!");
-                            continue;
-                        }
-
-                        bool ofer;
-                        Console.WriteLine("Novo status de oferecimento (True/False): ");
-                        while (!bool.TryParse(Console.ReadLine(), out ofer))
-                        {
-                            Console.WriteLine("Valor inválido. Digite True ou False:");
-                        }
-
-                        Console.WriteLine("Nova descrição: ");
-                        string desc = Console.ReadLine() ?? string.Empty;
-                        Console.WriteLine("Nova descrição em inglês: ");
-                        string descEn = Console.ReadLine() ?? string.Empty;
-
-                        decimal preco;
-                        Console.WriteLine("Novo preço: ");
-                        while (!decimal.TryParse(Console.ReadLine(), out preco))
-                        {
-                            Console.WriteLine("Valor inválido. Digite um número decimal válido:");
-                        }
-
-                        if (cardapio.EditarItem(cod, cat, ofer, desc, descEn, preco))
-                        {
-                            Console.WriteLine("Item editado com sucesso!");
-                        }
-                        else
-                        {
-                            Console.WriteLine("Item não encontrado!");
-                        }
+                        menu.EditarItem(cardapio);
                     }
                     else if (opcaoGerenciamento == 3)
                     {
-                        Console.WriteLine("Senha de acesso: ");
-                        string senha = Console.ReadLine() ?? string.Empty;
-                        if (senha != "0000")
-                        {
-                            Console.WriteLine("Acesso negado!");
-                            continue;
-                        }
-
-                        Console.WriteLine("Acesso permitido!");
-
-                        int cod;
-                        Console.WriteLine("Código do item a ser deletado: ");
-                        while (!int.TryParse(Console.ReadLine(), out cod))
-                        {
-                            Console.WriteLine("Valor inválido. Digite um número válido:");
-                        }
-
-                        if (cardapio.DeletarItem(cod))
-                        {
-                            Console.WriteLine("Item deletado com sucesso!");
-                        }
-                        else
-                        {
-                            Console.WriteLine("Item não encontrado!");
-                        }
+                        menu.DeletarItem(cardapio);
                     }
                     else if (opcaoGerenciamento == 4)
                     {
-                        cardapio.ListarItem();
+                        menu.ListarItem(cardapio);
                     }
                     else if (opcaoGerenciamento == 0)
                     {
@@ -237,7 +79,7 @@ class Program
                 }
                 else if (opcao == 2)
                 {
-                    menuPt.Pedidos();
+                    menu.Pedidos();
                     int opcaopedidos;
                     while (!int.TryParse(Console.ReadLine(), out opcaopedidos) || opcaopedidos < 0 || opcaopedidos > 3)
                     {
@@ -246,196 +88,23 @@ class Program
 
                     if (opcaopedidos == 1)
                     {
-                        Pedido pedido = new Pedido();
-                        pedidos.Add(pedido);
-                        cardapio.ListarItensOferecidos();
-
-                        int cod;
-                        Console.WriteLine("Código do item: ");
-                        while (!int.TryParse(Console.ReadLine(), out cod))
-                        {
-                            Console.WriteLine("Valor inválido. Digite um número válido:");
-                        }
-
-                        var item = cardapio.Itens.Find(i => i.Codigo == cod && i.Oferecido);
-                        if (item != null)
-                        {
-                            int qtd;
-                            Console.WriteLine("Quantidade: ");
-                            while (!int.TryParse(Console.ReadLine(), out qtd))
-                            {
-                                Console.WriteLine("Valor inválido. Digite um número válido:");
-                            }
-
-                            pedido.AdicionarItem(item, qtd);
-                            Console.WriteLine("Item adicionado!");
-                        }
-                        else
-                        {
-                            Console.WriteLine("Item não encontrado!");
-                        }
-
-                        bool registrado;
-                        Console.WriteLine("Cliente registrado? (True/False)");
-                        while (!bool.TryParse(Console.ReadLine(), out registrado))
-                        {
-                            Console.WriteLine("Valor inválido. Digite True ou False:");
-                        }
-
-                        if (registrado)
-                        {
-                            Console.WriteLine("Nome do cliente: ");
-                            string nomeCliente = Console.ReadLine() ?? string.Empty;
-                            Console.WriteLine("Email do cliente: ");
-                            string emailCliente = Console.ReadLine() ?? string.Empty;
-                            foreach (var cliente in clientes)
-                            {
-                                if (cliente.Nome == nomeCliente && cliente.Email == emailCliente)
-                                {
-                                    pedido.Cliente = cliente;
-                                    Console.WriteLine("Cliente já registrado. Vinculado ao pedido!");
-                                    break;
-                                }
-                            }
-                        }
-
+                        menu.CadastrarPedido(pedidos, cardapio, clientes);
                     }
                     else if (opcaopedidos == 2)
                     {
-                        programa.MostrarPedidos(pedidos);
-                        int id;
-                        Console.WriteLine("ID do pedido: ");
-                        while (!int.TryParse(Console.ReadLine(), out id))
-                        {
-                            Console.WriteLine("Valor inválido. Digite um número válido:");
-                        }
-
-                        Pedido pedido = pedidos.Find(p => p.IdPedido == id);
-                        if (pedido != null)
-                        {
-                            pedido.MostrarItens();
-                            Console.WriteLine("1. Adicionar item");
-                            Console.WriteLine("2. Remover item");
-                            int op;
-                            while (!int.TryParse(Console.ReadLine(), out op) || (op != 1 && op != 2))
-                            {
-                                Console.WriteLine("Opção inválida. Digite 1 ou 2:");
-                            }
-                            if (op == 1)
-                            {
-                                cardapio.ListarItensOferecidos();
-                                int cod;
-                                Console.WriteLine("Código do item: ");
-                                while (!int.TryParse(Console.ReadLine(), out cod))
-                                {
-                                    Console.WriteLine("Valor inválido. Digite um número válido:");
-                                }
-                                
-                                int qtd;
-                                Console.WriteLine("Quantidade: ");
-                                while (!int.TryParse(Console.ReadLine(), out qtd))
-                                {
-                                    Console.WriteLine("Valor inválido. Digite um número válido:");
-                                }
-
-                                try
-                                {
-                                    pedido.Editar(cardapio, op, cod, qtd);
-                                    Console.WriteLine("Operação realizada!");
-                                }
-                                catch (Exception ex)
-                                {
-                                    Console.WriteLine(ex.Message);
-                                }
-                            }
-                            else if (op == 2)
-                            {
-                                pedido.MostrarItens();
-                                int cod;
-                                Console.WriteLine("Código do item: ");
-                                while (!int.TryParse(Console.ReadLine(), out cod))
-                                {
-                                    Console.WriteLine("Valor inválido. Digite um número válido:");
-                                }
-                                
-                                int qtd;
-                                Console.WriteLine("Quantidade: ");
-                                while (!int.TryParse(Console.ReadLine(), out qtd))
-                                {
-                                    Console.WriteLine("Valor inválido. Digite um número válido:");
-                                }
-
-                                try
-                                {
-                                    pedido.Editar(cardapio, op, cod, qtd);
-                                    Console.WriteLine("Operação realizada!");
-                                }
-                                catch (Exception ex)
-                                {
-                                    Console.WriteLine(ex.Message);
-                                }
-                            }
-                        }
-                        else
-                        {
-                            Console.WriteLine("Pedido não encontrado!");
-                        }
+                        menu.EditarPedido(pedidos, cardapio, clientes);
                     }
                     else if (opcaopedidos == 3)
                     {
-                        programa.MostrarPedidos(pedidos);
-                        int id;
-                        Console.WriteLine("ID do pedido: ");
-                        while (!int.TryParse(Console.ReadLine(), out id))
-                        {
-                            Console.WriteLine("Valor inválido. Digite um número válido:");
-                        }
-
-                        Pedido pedido = pedidos.Find(p => p.IdPedido == id);
-                        if (pedido != null)
-                        {
-                            Console.WriteLine($"Valor total: {pedido.ValorTotal}");
-
-                            bool dividir;
-                            Console.WriteLine("Dividir conta? (True/False)");
-                            while (!bool.TryParse(Console.ReadLine(), out dividir))
-                            {
-                                Console.WriteLine("Valor inválido. Digite True ou False:");
-                            }
-
-                            bool confirmar;
-                            Console.WriteLine("Confirmar pagamento? (True/False)");
-                            while (!bool.TryParse(Console.ReadLine(), out confirmar))
-                            {
-                                Console.WriteLine("Valor inválido. Digite True ou False:");
-                            }
-
-                            try
-                            {
-                                pedido.Pagar(dividir, confirmar);
-                                if (confirmar)
-                                {
-                                    Console.WriteLine("Pedido pago!");
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                Console.WriteLine(ex.Message);
-                            }
-                        }
-                        else
-                        {
-                            Console.WriteLine("Pedido não encontrado!");
-                        }
+                        menu.PagarPedido(pedidos);
                     }
                     else if (opcaopedidos == 0)
                     {
                         Console.WriteLine("Voltando ao menu principal...");
                     }
-                }
                 else if (opcao == 3)
                 {
-                    menuPt.Relatorios();
+                    menu.Relatorios();
                     int oprel;
                     while (!int.TryParse(Console.ReadLine(), out oprel) || oprel < 0 || oprel > 4)
                     {
@@ -533,11 +202,11 @@ class Program
 
         else if (escolha == 2)
         {
-            MenuEn menuEn = new MenuEn();
+            IMenu menu = new MenuEn();
             int opcao;
             do
             {
-                menuEn.ExibirMenu();
+                menu.ExibirMenu();
                 while (!int.TryParse(Console.ReadLine(), out opcao) || opcao < 0 || opcao > 4)
                 {
                     Console.WriteLine("Invalid option. Enter a number between 0 and 4:");
@@ -545,7 +214,7 @@ class Program
 
                 if (opcao == 1)
                 {
-                    menuEn.Gerenciamento();
+                    menu.Gerenciamento();
                     int opcaoGerenciamento;
                     while (!int.TryParse(Console.ReadLine(), out opcaoGerenciamento) || opcaoGerenciamento < 0 || opcaoGerenciamento > 4)
                     {
@@ -673,7 +342,7 @@ class Program
                 }
                 else if (opcao == 2)
                 {
-                    menuEn.Pedidos();
+                    menu.Pedidos();
                     int opcaopedidos;
                     while (!int.TryParse(Console.ReadLine(), out opcaopedidos) || opcaopedidos < 0 || opcaopedidos > 3)
                     {
@@ -871,7 +540,7 @@ class Program
                 }
                 else if (opcao == 3)
                 {
-                    menuEn.Relatorios();
+                    menu.Relatorios();
                     int oprel;
                     while (!int.TryParse(Console.ReadLine(), out oprel) || oprel < 0 || oprel > 4)
                     {

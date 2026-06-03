@@ -55,33 +55,11 @@ public class Pedido
             }
         }
     }
-
-    public void MostrarItens(string lang = "pt")
-    {
-        if (Itens.Count == 0)
-        {
-            Console.WriteLine(lang == "en" ? "No items in this order." : "Nenhum item no pedido.");
-            return;
-        }
-
-        foreach (var item in Itens)
-        {
-            if (lang == "en")
-            {
-                Console.WriteLine($"Code: {item.Codigo} - {item.DescricaoEn} - Quantity: {item.Quantidade} - Subtotal: {item.Subtotal}");
-            }
-            else
-            {
-                Console.WriteLine($"Código: {item.Codigo} - {item.Descricao} - Quantidade: {item.Quantidade} - Subtotal: {item.Subtotal}");
-            }
-        }
-    }
-
     public void Editar(Cardapio cardapio, int opcao, int cod, int qtd)
     {
         if (Pago)
         {
-            throw new InvalidOperationException("Pedido já pago!");
+            return;
         }
 
         if (opcao == 1)
@@ -93,7 +71,7 @@ public class Pedido
             }
             else
             {
-                throw new ArgumentException("Item não encontrado ou não oferecido!");
+                return;
             }
         }
         else if (opcao == 2)
@@ -106,7 +84,7 @@ public class Pedido
     {
         if (ValorTotal <= 0)
         {
-            throw new InvalidOperationException("Pedido vazio!");
+            return;
         }
 
         Dividido = dividirConta;
