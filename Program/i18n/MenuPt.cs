@@ -4,7 +4,7 @@ namespace Program;
 
 public class MenuPt : IMenu
 {
-    public void ExibirMenu() //feito
+    public void ExibirMenu()
     {
         Console.WriteLine("Menu Principal");
         Console.WriteLine("1. Gerenciamento");
@@ -12,7 +12,7 @@ public class MenuPt : IMenu
         Console.WriteLine("3. Relatórios");
         Console.WriteLine("4. Sair");
     }
-    public void Gerenciamento() // feito
+    public void Gerenciamento()
     {
         Console.WriteLine("1 - Cadastrar Item"); 
         Console.WriteLine("2 - Editar Item");
@@ -406,5 +406,87 @@ public class MenuPt : IMenu
         {
             Console.WriteLine("Pedido não encontrado!");
         }
+    }
+    public void FiltrarPorPeriodo(Relatorio relatorio, List<Pedido> pedidos)
+    {
+        DateTime inicio;
+        Console.WriteLine("Data início (yyyy-MM-dd): ");
+        while (!DateTime.TryParse(Console.ReadLine(), out inicio))
+        {
+            Console.WriteLine("Data inválida. Digite uma data válida:");
+        }
+
+        DateTime fim;
+        Console.WriteLine("Data fim (yyyy-MM-dd): ");
+        while (!DateTime.TryParse(Console.ReadLine(), out fim))
+        {
+            Console.WriteLine("Data inválida. Digite uma data válida:");
+        }
+
+        var pedidosFiltrados = relatorio.FiltrarPorPeriodo(pedidos, inicio, fim);
+        Console.WriteLine($"Pedidos no período {inicio} a {fim}:");
+        foreach (var p in pedidosFiltrados)
+        {
+            Console.WriteLine($"ID: {p.IdPedido}, Cliente: {p.Cliente?.Nome ?? "Anônimo"}, Total: {p.ValorTotal}, Pago: {p.Pago}");
+        }
+    }
+
+    public void FiltrarPorCliente(Relatorio relatorio, List<Pedido> pedidos)
+    {
+        Console.WriteLine("Nome do cliente: ");
+        string nome = Console.ReadLine() ?? string.Empty;
+
+        var pedidosFiltrados = relatorio.FiltrarPorCliente(pedidos, nome);
+        Console.WriteLine($"Pedidos do cliente {nome}:");
+        foreach (var p in pedidosFiltrados)
+        {
+            Console.WriteLine($"ID: {p.IdPedido}, Cliente: {p.Cliente?.Nome ?? "Anônimo"}, Total: {p.ValorTotal}, Pago: {p.Pago}");
+        }
+    }
+
+    public void FiltrarPorClientePeriodo(Relatorio relatorio, List<Pedido> pedidos)
+    {
+        Console.WriteLine("Nome do cliente: ");
+        string nome = Console.ReadLine() ?? string.Empty;
+
+        DateTime inicio;
+        Console.WriteLine("Data início (yyyy-MM-dd): ");
+        while (!DateTime.TryParse(Console.ReadLine(), out inicio))
+        {
+            Console.WriteLine("Data inválida. Digite uma data válida:");
+        }
+
+        DateTime fim;
+        Console.WriteLine("Data fim (yyyy-MM-dd): ");
+        while (!DateTime.TryParse(Console.ReadLine(), out fim))
+        {
+            Console.WriteLine("Data inválida. Digite uma data válida:");
+        }
+
+        var pedidosFiltrados = relatorio.FiltrarPorClientePeriodo(pedidos, nome, inicio, fim);
+        Console.WriteLine($"Pedidos do cliente {nome} no período {inicio} a {fim}:");
+        foreach (var p in pedidosFiltrados)
+        {
+            Console.WriteLine($"ID: {p.IdPedido}, Cliente: {p.Cliente?.Nome ?? "Anônimo"}, Total: {p.ValorTotal}, Pago: {p.Pago}");
+        }
+    }
+
+    public void CalcularConsumoItem(Relatorio relatorio, List<Pedido> pedidos)
+    {
+        int cod;
+        Console.WriteLine("Código do item: ");
+        while (!int.TryParse(Console.ReadLine(), out cod))
+        {
+            Console.WriteLine("Valor inválido. Digite um número válido:");
+        }
+
+        int total;
+        var consumo = relatorio.CalcularConsumoItem(pedidos, cod, out total);
+        Console.WriteLine($"Consumo do item {cod}:");
+        foreach (var c in consumo)
+        {
+            Console.WriteLine($"ID Pedido: {c.IdPedido}, Quantidade: {c.Quantidade}");
+        }
+        Console.WriteLine($"Total consumido: {total}");
     }
 }

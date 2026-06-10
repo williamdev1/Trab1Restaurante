@@ -20,4 +20,8 @@ public interface IMenu
     public void EditarPedido(List<Pedido> pedidos, Cardapio cardapio, List<Pessoa> clientes);
     public void MostrarItens(Cardapio cardapio, Pedido pedido);
     public void PagarPedido(List<Pedido> pedidos);
+    public void FiltrarPorPeriodo(Relatorio relatorio, List<Pedido> pedidos);
+    public void FiltrarPorCliente(Relatorio relatorio, List<Pedido> pedidos);
+    public void FiltrarPorClientePeriodo(Relatorio relatorio, List<Pedido> pedidos);
+    public void CalcularConsumoItem(Relatorio relatorio, List<Pedido> pedidos);
 }
