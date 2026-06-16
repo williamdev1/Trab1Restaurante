@@ -12,6 +12,7 @@ public class MenuEn : IMenu
         Console.WriteLine("2. Orders");
         Console.WriteLine("3. Reports");
         Console.WriteLine("4. Exit");
+        Console.WriteLine("5. Change language");
     }
     public void Gerenciamento()
     {
@@ -38,6 +39,12 @@ public class MenuEn : IMenu
         Console.WriteLine("3 - Client by Period");
         Console.WriteLine("4 - Consumption by Item");
         Console.WriteLine("0 - Back");
+    }
+    public void TrocarIdioma()
+    {
+        Console.WriteLine("Which language do you want to select?");
+        Console.WriteLine("1. Portuguese");
+        Console.WriteLine("2. Spanish");
     }
     public void CadastrarItem(Cardapio Cardapio)
     {

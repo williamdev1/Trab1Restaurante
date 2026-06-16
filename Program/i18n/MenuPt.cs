@@ -11,6 +11,7 @@ public class MenuPt : IMenu
         Console.WriteLine("2. Pedidos");
         Console.WriteLine("3. Relatórios");
         Console.WriteLine("4. Sair");
+        Console.WriteLine("5. Trocar idioma");
     }
     public void Gerenciamento()
     {
@@ -35,6 +36,12 @@ public class MenuPt : IMenu
         Console.WriteLine("3 - Cliente em Período");
         Console.WriteLine("4 - Consumo por Item");
         Console.WriteLine("0 - Voltar");
+    }
+    public void TrocarIdioma()
+    {
+        Console.WriteLine("Qual idioma você deseja selecionar?");
+        Console.WriteLine("1. Inglês");
+        Console.WriteLine("2. Espanhol");
     }
     
     public void CadastrarItem(Cardapio Cardapio)

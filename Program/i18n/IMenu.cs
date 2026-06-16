@@ -8,7 +8,7 @@ public interface IMenu
     void Gerenciamento();
     void Pedidos();
     void Relatorios();
-    
+    void TrocarIdioma();
     public void CadastrarItem(Cardapio Cardapio);
     public void EditarItem(Cardapio Cardapio);
     public void DeletarItem(Cardapio Cardapio);

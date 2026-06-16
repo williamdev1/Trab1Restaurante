@@ -43,9 +43,9 @@ class Program
             do
             {
                 menu.ExibirMenu();
-                while (!int.TryParse(Console.ReadLine(), out opcao) || opcao < 0 || opcao > 4)
+                while (!int.TryParse(Console.ReadLine(), out opcao) || opcao < 0 || opcao > 5)
                 {
-                    Console.WriteLine("Opção inválida. Digite um número entre 0 e 4:");
+                    Console.WriteLine("Opção inválida. Digite um número entre 0 e 5:");
                 }
 
                 if (opcao == 1)
@@ -139,7 +139,23 @@ class Program
                     Console.WriteLine("Até mais!");
                     break;
                 }
-                
+                else if (opcao == 5)
+                {
+                    menu.TrocarIdioma();
+                    int novaEscolha;
+                    while (!int.TryParse(Console.ReadLine(), out novaEscolha) || (novaEscolha != 1 && novaEscolha != 2))
+                    {
+                        Console.WriteLine("Opção inválida. Digite 1 para Inglês ou 2 para Espanhol:");
+                    }
+                    if (novaEscolha == 1)
+                    {
+                        menu = new MenuEn();
+                    }
+                    else if (novaEscolha == 2)
+                    {
+                        menu = new MenuEsp();
+                    }
+                }
             } while (opcao != 0);
             
         }
@@ -151,9 +167,9 @@ class Program
             do
             {
                 menu.ExibirMenu();
-                while (!int.TryParse(Console.ReadLine(), out opcao) || opcao < 0 || opcao > 4)
+                while (!int.TryParse(Console.ReadLine(), out opcao) || opcao < 0 || opcao > 5)
                 {
-                    Console.WriteLine("Invalid option. Enter a number between 0 and 4:");
+                    Console.WriteLine("Invalid option. Enter a number between 0 and 5:");
                 }
 
                 if (opcao == 1)
@@ -246,6 +262,23 @@ class Program
                     Console.WriteLine("Goodbye!");
                     break;
                 }
+                else if (opcao == 5)
+                {
+                    menu.TrocarIdioma();
+                    int novaEscolha;
+                    while (!int.TryParse(Console.ReadLine(), out novaEscolha) || (novaEscolha != 1 && novaEscolha != 2))
+                    {
+                        Console.WriteLine("Invalid option. Enter 1 for Portuguese or 2 for Spanish:");
+                    }
+                    if (novaEscolha == 1)
+                    {
+                        menu = new MenuPt();
+                    }
+                    else if (novaEscolha == 2)
+                    {
+                        menu = new MenuEsp();
+                    }
+                }
             } while (opcao != 0);
         }    
         else if (escolha == 3)
@@ -255,9 +288,9 @@ class Program
             do
             {
                 menu.ExibirMenu();
-                while (!int.TryParse(Console.ReadLine(), out opcao) || opcao < 0 || opcao > 4)
+                while (!int.TryParse(Console.ReadLine(), out opcao) || opcao < 0 || opcao > 5)
                 {
-                    Console.WriteLine("Opción inválida. Ingrese un número entre 0 y 4:");
+                    Console.WriteLine("Opción inválida. Ingrese un número entre 0 y 5:");
                 }
 
                 if (opcao == 1)
@@ -350,12 +383,24 @@ class Program
                     Console.WriteLine("Gracias por usar el programa!");
                     break;
                 }
+                else if (opcao == 5)
+                {
+                    menu.TrocarIdioma();
+                    int novaEscolha;
+                    while (!int.TryParse(Console.ReadLine(), out novaEscolha) || (novaEscolha != 1 && novaEscolha != 2))
+                    {
+                        Console.WriteLine("Opción inválida. Ingrese 1 para Portugués o 2 para Inglés:");
+                    }
+                    if (novaEscolha == 1)
+                    {
+                        menu = new MenuPt();
+                    }
+                    else if (novaEscolha == 2)
+                    {
+                        menu = new MenuEn();
+                    }
+                }
             } while (opcao != 0);
         }
-        else
-        {
-            Console.WriteLine("Opción inválida. Reinicie el programa y elija 1 o 2.");
-        }
-        
     }
 }
