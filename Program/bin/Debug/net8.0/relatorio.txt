@@ -1,0 +1,20 @@
+===RELATÓRIO DE CONSUMO DE ITEM===
+Pedido: 12
+Cliente: Anônimo
+Data/Hora: 30/06/2026 19:43:56
+Pago: False
+Itens:
+  - Torta de Maçã (Qtd: 2, Subtotal: 28,00)
+Valor Total: 28,00
+--------------------------------
+===RELATÓRIO DE CONSUMO DE ITEM===
+Pedido: 2
+Cliente: Maria Oliveira
+Data/Hora: 29/06/2026 00:31:40
+Pago: False
+Itens:
+  - Mousse de Chocolate (Qtd: 1, Subtotal: 10,00)
+  - Água (Qtd: 1, Subtotal: 5,00)
+  - Bife à Parmegiana (Qtd: 1, Subtotal: 35,00)
+Valor Total: 50,00
+--------------------------------

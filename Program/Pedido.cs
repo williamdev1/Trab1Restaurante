@@ -1,23 +1,34 @@
 using System;
-
+//using System.Collections.Generic;
+using System.Text.Json.Serialization;
 namespace Program;
+
+
 
 public class Pedido
 {
-    private static int nextId = 1;
+    //private static int nextId = 1;
 
     public int IdPedido { get; set; }
-    public Pessoa Cliente { get; set; }
+    public Pessoa? Cliente { get; set; }
     public List<ItemPedido> Itens { get; set; } = new List<ItemPedido>();
     public DateTime Horario { get; set; }
     public bool Pago { get; set; }
     public bool Dividido { get; set; }
     public decimal ValorTotal => CalcularTotal();
 
+    [JsonConstructor]
     public Pedido()
     {
-    IdPedido = nextId++;
-    Horario = DateTime.Now;
+        Itens = new List<ItemPedido>();
+        Horario = DateTime.Now;
+    }
+
+    public Pedido(List<Pedido> pedidos)
+    {
+        Pedido pedidoaux = pedidos[pedidos.Count - 1];
+        IdPedido = pedidoaux.IdPedido + 1;
+        Horario = DateTime.Now;
     }
 
     private decimal CalcularTotal()

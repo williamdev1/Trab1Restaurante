@@ -232,7 +232,8 @@ public class MenuPt : IMenu
     
     public void CadastrarPedido(List<Pedido> pedidos, Cardapio cardapio, List<Pessoa> clientes)
     {
-        Pedido pedido = new Pedido();
+
+        Pedido pedido = new Pedido(pedidos);
         pedidos.Add(pedido);
         ListarItensOferecidos(cardapio);
 
@@ -296,7 +297,7 @@ public class MenuPt : IMenu
         {   
             if(!pedido.Pago)
             {
-                Console.WriteLine($"ID: {pedido.IdPedido}, Cliente: {pedido.Cliente?.Nome ?? "Anônimo"}, Total: {pedido.ValorTotal}, Pagado: {pedido.Pago}");
+                Console.WriteLine($"ID: {pedido.IdPedido}, Cliente: {pedido.Cliente?.Nome ?? "Anônimo"}, Total: {pedido.ValorTotal}, Pago: {pedido.Pago}");
             }
         }
     }

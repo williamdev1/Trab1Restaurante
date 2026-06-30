@@ -223,7 +223,7 @@ public class MenuEn : IMenu
 
     public void CadastrarPedido(List<Pedido> pedidos, Cardapio cardapio, List<Pessoa> clientes)
     {
-        Pedido pedido = new Pedido();
+        Pedido pedido = new Pedido(pedidos);
         pedidos.Add(pedido);
         ListarItensOferecidos(cardapio);
 

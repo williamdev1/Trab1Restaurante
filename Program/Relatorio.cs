@@ -49,6 +49,7 @@ public abstract class Relatorio
     public void CalcularConsumoItem(List<Pedido> pedidos, int codigoItem, out int total)
     {
         total = 0;
+        RegistrarTitulo("===RELATÓRIO DE CONSUMO DE ITEM===");
         foreach (var pedido in pedidos)
         {
             ItemPedido item = null;
@@ -60,7 +61,6 @@ public abstract class Relatorio
                     break;
                 }
             }
-            RegistrarTitulo("===RELATÓRIO DE CONSUMO DE ITEM===");
             if (item != null)
             {
                 RegistrarInformacao(pedido);

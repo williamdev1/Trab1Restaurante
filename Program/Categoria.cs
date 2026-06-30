@@ -2,8 +2,8 @@ namespace Program;
 
 public enum Categoria
 {
-    Entradas,
-    Bebidas,
-    PratosPrincipais,
-    Sobremesas
+    Entradas = 1,
+    Bebidas = 2,
+    PratosPrincipais = 3,
+    Sobremesas = 4
 }
