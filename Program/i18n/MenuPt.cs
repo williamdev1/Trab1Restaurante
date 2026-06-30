@@ -3,7 +3,8 @@ using System;
 namespace Program;
 
 public class MenuPt : IMenu
-{
+{   
+    public string Idioma = "pt";
     public void ExibirMenu()
     {
         Console.WriteLine("Menu Principal");
@@ -40,8 +41,9 @@ public class MenuPt : IMenu
     public void TrocarIdioma()
     {
         Console.WriteLine("Qual idioma você deseja selecionar?");
-        Console.WriteLine("1. Inglês");
-        Console.WriteLine("2. Espanhol");
+        Console.WriteLine("1. Português");
+        Console.WriteLine("2. Inglês");
+        Console.WriteLine("3. Espanhol");
     }
     
     public void CadastrarItem(Cardapio Cardapio)
@@ -77,11 +79,23 @@ public class MenuPt : IMenu
         {
             Console.WriteLine("Valor inválido. Digite True ou False:");
         }
-
-        Console.WriteLine("Descrição: ");
-        string desc = Console.ReadLine() ?? string.Empty;
+        Console.WriteLine("Descrição em português: ");
+        string descPt = Console.ReadLine() ?? string.Empty;
         Console.WriteLine("Descrição em inglês: ");
         string descEn = Console.ReadLine() ?? string.Empty;
+        Console.WriteLine("Descrição em espanhol: ");
+        string descEs = Console.ReadLine() ?? string.Empty;
+
+        Dictionary<string, string> descricao = new Dictionary<string, string>
+        {
+            ["pt"] = descPt,
+            ["en"] = descEn,
+            ["es"] = descEs
+        };
+        // Console.WriteLine("Descrição: ");
+        // string desc = Console.ReadLine() ?? string.Empty;
+        // Console.WriteLine("Descrição em inglês: ");
+        // string descEn = Console.ReadLine() ?? string.Empty;
 
         decimal preco;
         Console.WriteLine("Preço: ");
@@ -92,7 +106,7 @@ public class MenuPt : IMenu
         
         try
         {
-            Cardapio.CadastrarItem(cod, cat, ofer, desc, descEn, preco);
+            Cardapio.CadastrarItem(cod, cat, ofer, descricao, preco);
             Console.WriteLine("Item cadastrado com sucesso!");
         }
         catch (ArgumentException ex)
@@ -135,10 +149,23 @@ public class MenuPt : IMenu
             Console.WriteLine("Valor inválido. Digite True ou False:");
         }
 
-        Console.WriteLine("Nova descrição: ");
-        string desc = Console.ReadLine() ?? string.Empty;
-        Console.WriteLine("Nova descrição em inglês: ");
+        Console.WriteLine("Descrição em português: ");
+        string descPt = Console.ReadLine() ?? string.Empty;
+        Console.WriteLine("Descrição em inglês: ");
         string descEn = Console.ReadLine() ?? string.Empty;
+        Console.WriteLine("Descrição em espanhol: ");
+        string descEs = Console.ReadLine() ?? string.Empty;
+
+        Dictionary<string, string> descricao = new Dictionary<string, string>
+        {
+            ["pt"] = descPt,
+            ["en"] = descEn,
+            ["es"] = descEs
+        };
+        // Console.WriteLine("Nova descrição: ");
+        // string desc = Console.ReadLine() ?? string.Empty;
+        // Console.WriteLine("Nova descrição em inglês: ");
+        // string descEn = Console.ReadLine() ?? string.Empty;
 
         decimal preco;
         Console.WriteLine("Novo preço: ");
@@ -147,7 +174,7 @@ public class MenuPt : IMenu
             Console.WriteLine("Valor inválido. Digite um número decimal válido:");
         }
 
-        if (Cardapio.EditarItem(cod, cat, ofer, desc, descEn, preco))
+        if (Cardapio.EditarItem(cod, cat, ofer, descricao, preco))
         {
             Console.WriteLine("Item editado com sucesso!");
         }
@@ -191,7 +218,7 @@ public class MenuPt : IMenu
         
         foreach (var item in Cardapio.Itens)
         {   
-            Console.WriteLine($"Código: {item.Codigo} - Descrição: {item.Descricao} - Preço: {item.Preco}");
+            Console.WriteLine($"Código: {item.Codigo} - Descrição: {item.DescricaoEm(Idioma)} - Preço: {item.Preco}");
         }
     }
 
@@ -199,7 +226,7 @@ public class MenuPt : IMenu
     {
         foreach (var item in Cardapio.Itens.Where(i => i.Oferecido))
         {
-            Console.WriteLine($"Código: {item.Codigo} - Descrição: {item.Descricao} - Preço: {item.Preco}");
+            Console.WriteLine($"Código: {item.Codigo} - Descrição: {item.DescricaoEm(Idioma)} - Preço: {item.Preco}");
         }
     }
     
@@ -266,8 +293,11 @@ public class MenuPt : IMenu
             Console.WriteLine("Nenhum pedido foi criado ainda.");
         }
         foreach (var pedido in pedidos)
-        {
-            Console.WriteLine($"ID: {pedido.IdPedido}, Cliente: {pedido.Cliente?.Nome ?? "Anônimo"}, Total: {pedido.ValorTotal}, Pago: {pedido.Pago}");
+        {   
+            if(!pedido.Pago)
+            {
+                Console.WriteLine($"ID: {pedido.IdPedido}, Cliente: {pedido.Cliente?.Nome ?? "Anônimo"}, Total: {pedido.ValorTotal}, Pagado: {pedido.Pago}");
+            }
         }
     }
 
@@ -355,15 +385,15 @@ public class MenuPt : IMenu
 
     public void MostrarItens(Cardapio Cardapio, Pedido pedido)
     {
-        if (Cardapio.Itens.Count == 0)
+        if (pedido.Itens.Count == 0)
         {
             Console.WriteLine("Nenhum item no pedido.");
             return;
         }
 
-        foreach (var item in Cardapio.Itens)
+        foreach (var item in pedido.Itens)
         {
-            Console.WriteLine($"Código: {item.Codigo} - {item.Descricao} - Quantidade: {item.Quantidade} - Subtotal: {item.Subtotal}");
+            Console.WriteLine($"Código: {item.Codigo} - {item.DescricaoEm(Idioma)} - Quantidade: {item.Quantidade} - Subtotal: {item.Subtotal}");
         }
     }
 
@@ -376,8 +406,12 @@ public class MenuPt : IMenu
         {
             Console.WriteLine("Valor inválido. Digite um número válido:");
         }
-
         Pedido pedido = pedidos.Find(p => p.IdPedido == id);
+        if(pedido.Pago)
+        {
+            Console.WriteLine("Pedido já foi pago!");
+            return;
+        }
         if (pedido != null)
         {
             Console.WriteLine($"Valor total: {pedido.ValorTotal}");
@@ -395,13 +429,14 @@ public class MenuPt : IMenu
             {
                 Console.WriteLine("Valor inválido. Digite True ou False:");
             }
-
+            
             try
             {
                 pedido.Pagar(dividir, confirmar);
                 if (confirmar)
                 {
                     Console.WriteLine("Pedido pago!");
+                    pedido.Pago = true;
                 }
             }
             catch (Exception ex)
@@ -414,7 +449,7 @@ public class MenuPt : IMenu
             Console.WriteLine("Pedido não encontrado!");
         }
     }
-    public void FiltrarPorPeriodo(Relatorio relatorio, List<Pedido> pedidos)
+    public void FiltrarPorPeriodo(List<Pedido> pedidos)
     {
         DateTime inicio;
         Console.WriteLine("Data início (yyyy-MM-dd): ");
@@ -430,28 +465,32 @@ public class MenuPt : IMenu
             Console.WriteLine("Data inválida. Digite uma data válida:");
         }
 
-        var pedidosFiltrados = relatorio.FiltrarPorPeriodo(pedidos, inicio, fim);
-        Console.WriteLine($"Pedidos no período {inicio} a {fim}:");
-        foreach (var p in pedidosFiltrados)
-        {
-            Console.WriteLine($"ID: {p.IdPedido}, Cliente: {p.Cliente?.Nome ?? "Anônimo"}, Total: {p.ValorTotal}, Pago: {p.Pago}");
-        }
+        new RelatorioPedidosEmTela().FiltrarPorPeriodo(pedidos, inicio, fim);
+        new RelatorioPedidosParaArquivo().FiltrarPorPeriodo(pedidos, inicio, fim);
+
+        // Console.WriteLine($"Pedidos no período {inicio} a {fim}:");
+        // foreach (var p in pedidosFiltrados)
+        // {
+        //     Console.WriteLine($"ID: {p.IdPedido}, Cliente: {p.Cliente?.Nome ?? "Anônimo"}, Total: {p.ValorTotal}, Pago: {p.Pago}");
+        // }
     }
 
-    public void FiltrarPorCliente(Relatorio relatorio, List<Pedido> pedidos)
+    public void FiltrarPorCliente(List<Pedido> pedidos)
     {
         Console.WriteLine("Nome do cliente: ");
         string nome = Console.ReadLine() ?? string.Empty;
 
-        var pedidosFiltrados = relatorio.FiltrarPorCliente(pedidos, nome);
-        Console.WriteLine($"Pedidos do cliente {nome}:");
-        foreach (var p in pedidosFiltrados)
-        {
-            Console.WriteLine($"ID: {p.IdPedido}, Cliente: {p.Cliente?.Nome ?? "Anônimo"}, Total: {p.ValorTotal}, Pago: {p.Pago}");
-        }
+        new RelatorioPedidosEmTela().FiltrarPorCliente(pedidos, nome);
+        new RelatorioPedidosParaArquivo().FiltrarPorCliente(pedidos, nome);
+        // var pedidosFiltrados = relatorio.FiltrarPorCliente(pedidos, nome);
+        // Console.WriteLine($"Pedidos do cliente {nome}:");
+        // foreach (var p in pedidosFiltrados)
+        // {
+        //     Console.WriteLine($"ID: {p.IdPedido}, Cliente: {p.Cliente?.Nome ?? "Anônimo"}, Total: {p.ValorTotal}, Pago: {p.Pago}");
+        // }
     }
 
-    public void FiltrarPorClientePeriodo(Relatorio relatorio, List<Pedido> pedidos)
+    public void FiltrarPorClientePeriodo(List<Pedido> pedidos)
     {
         Console.WriteLine("Nome do cliente: ");
         string nome = Console.ReadLine() ?? string.Empty;
@@ -470,15 +509,17 @@ public class MenuPt : IMenu
             Console.WriteLine("Data inválida. Digite uma data válida:");
         }
 
-        var pedidosFiltrados = relatorio.FiltrarPorClientePeriodo(pedidos, nome, inicio, fim);
-        Console.WriteLine($"Pedidos do cliente {nome} no período {inicio} a {fim}:");
-        foreach (var p in pedidosFiltrados)
-        {
-            Console.WriteLine($"ID: {p.IdPedido}, Cliente: {p.Cliente?.Nome ?? "Anônimo"}, Total: {p.ValorTotal}, Pago: {p.Pago}");
-        }
+        new RelatorioPedidosEmTela().FiltrarPorClientePeriodo(pedidos, nome, inicio, fim);
+        new RelatorioPedidosParaArquivo().FiltrarPorClientePeriodo(pedidos, nome, inicio, fim);
+        // var pedidosFiltrados = relatorio.FiltrarPorClientePeriodo(pedidos, nome, inicio, fim);
+        // Console.WriteLine($"Pedidos do cliente {nome} no período {inicio} a {fim}:");
+        // foreach (var p in pedidosFiltrados)
+        // {
+        //     Console.WriteLine($"ID: {p.IdPedido}, Cliente: {p.Cliente?.Nome ?? "Anônimo"}, Total: {p.ValorTotal}, Pago: {p.Pago}");
+        // }
     }
 
-    public void CalcularConsumoItem(Relatorio relatorio, List<Pedido> pedidos)
+    public void CalcularConsumoItem(List<Pedido> pedidos)
     {
         int cod;
         Console.WriteLine("Código do item: ");
@@ -488,12 +529,14 @@ public class MenuPt : IMenu
         }
 
         int total;
-        var consumo = relatorio.CalcularConsumoItem(pedidos, cod, out total);
-        Console.WriteLine($"Consumo do item {cod}:");
-        foreach (var c in consumo)
-        {
-            Console.WriteLine($"ID Pedido: {c.IdPedido}, Quantidade: {c.Quantidade}");
-        }
-        Console.WriteLine($"Total consumido: {total}");
+        new RelatorioPedidosEmTela().CalcularConsumoItem(pedidos, cod, out total);
+        new RelatorioPedidosParaArquivo().CalcularConsumoItem(pedidos, cod, out total);
+        // var consumo = relatorio.CalcularConsumoItem(pedidos, cod, out total);
+        // Console.WriteLine($"Consumo do item {cod}:");
+        // foreach (var c in consumo)
+        // {
+        //     Console.WriteLine($"ID Pedido: {c.IdPedido}, Quantidade: {c.Quantidade}");
+        // }
+        // Console.WriteLine($"Total consumido: {total}");
     }
 }

@@ -16,8 +16,8 @@ public class Pedido
 
     public Pedido()
     {
-        IdPedido = nextId++;
-        Horario = DateTime.Now;
+    IdPedido = nextId++;
+    Horario = DateTime.Now;
     }
 
     private decimal CalcularTotal()
@@ -39,7 +39,7 @@ public class Pedido
         }
         else
         {
-            Itens.Add(new ItemPedido { Codigo = item.Codigo, Categoria = item.Categoria, Oferecido = item.Oferecido, Descricao = item.Descricao, DescricaoEn = item.DescricaoEn, Preco = item.Preco, Quantidade = quantidade });
+            Itens.Add(new ItemPedido { Codigo = item.Codigo, Categoria = item.Categoria, Oferecido = item.Oferecido, Descricao = item.Descricao, Preco = item.Preco, Quantidade = quantidade });
         }
     }
 

@@ -6,19 +6,18 @@ public class Cardapio
 {
     public List<ItemPedido> Itens { get; set; } = new List<ItemPedido>();
 
-    public void CadastrarItem(int codigo, Categoria categoria, bool oferecido, string descricao, string descricaoEn, decimal preco)
+    public void CadastrarItem(int codigo, Categoria categoria, bool oferecido, Dictionary<string, string> descricao, decimal preco)
     {
         ItemPedido item = new ItemPedido();
         item.Codigo = codigo;
         item.Categoria = categoria;
         item.Oferecido = oferecido;
         item.Descricao = descricao;
-        item.DescricaoEn = descricaoEn;
         item.Preco = preco;
         Itens.Add(item);
     }
 
-    public bool EditarItem(int codigo, Categoria categoria, bool oferecido, string descricao, string descricaoEn, decimal preco)
+    public bool EditarItem(int codigo, Categoria categoria, bool oferecido, Dictionary<string, string> descricao, decimal preco)
     {
         foreach (var item in Itens)
         {
@@ -27,7 +26,6 @@ public class Cardapio
                 item.Categoria = categoria;
                 item.Oferecido = oferecido;
                 item.Descricao = descricao;
-                item.DescricaoEn = descricaoEn;
                 item.Preco = preco;
                 return true;
             }
@@ -115,22 +113,22 @@ public class Cardapio
     //     }
     // }
 
-    public void InicializarMock()
-    {
-        Itens.Add(new ItemPedido { Codigo = 1, Categoria = Categoria.Entradas, Oferecido = true, Descricao = "Salada Caesar", DescricaoEn = "Caesar Salad", Preco = 18.50m });
-        Itens.Add(new ItemPedido { Codigo = 2, Categoria = Categoria.Entradas, Oferecido = true, Descricao = "Bruschetta", DescricaoEn = "Bruschetta", Preco = 15.00m });
-        Itens.Add(new ItemPedido { Codigo = 3, Categoria = Categoria.Entradas, Oferecido = true, Descricao = "Pão", DescricaoEn = "Bread", Preco = 22.00m });
+    // public void InicializarMock()
+    // {
+    //     Itens.Add(new ItemPedido { Codigo = 1, Categoria = Categoria.Entradas, Oferecido = true, Descricao = "Salada Caesar", DescricaoEn = "Caesar Salad", Preco = 18.50m });
+    //     Itens.Add(new ItemPedido { Codigo = 2, Categoria = Categoria.Entradas, Oferecido = true, Descricao = "Bruschetta", DescricaoEn = "Bruschetta", Preco = 15.00m });
+    //     Itens.Add(new ItemPedido { Codigo = 3, Categoria = Categoria.Entradas, Oferecido = true, Descricao = "Pão", DescricaoEn = "Bread", Preco = 22.00m });
 
-        Itens.Add(new ItemPedido { Codigo = 4, Categoria = Categoria.Bebidas, Oferecido = true, Descricao = "Suco de Laranja", DescricaoEn = "Orange Juice", Preco = 7.00m });
-        Itens.Add(new ItemPedido { Codigo = 5, Categoria = Categoria.Bebidas, Oferecido = true, Descricao = "Água", DescricaoEn = "Water", Preco = 5.00m });
-        Itens.Add(new ItemPedido { Codigo = 6, Categoria = Categoria.Bebidas, Oferecido = true, Descricao = "Cerveja", DescricaoEn = "Beer", Preco = 12.00m });
+    //     Itens.Add(new ItemPedido { Codigo = 4, Categoria = Categoria.Bebidas, Oferecido = true, Descricao = "Suco de Laranja", DescricaoEn = "Orange Juice", Preco = 7.00m });
+    //     Itens.Add(new ItemPedido { Codigo = 5, Categoria = Categoria.Bebidas, Oferecido = true, Descricao = "Água", DescricaoEn = "Water", Preco = 5.00m });
+    //     Itens.Add(new ItemPedido { Codigo = 6, Categoria = Categoria.Bebidas, Oferecido = true, Descricao = "Cerveja", DescricaoEn = "Beer", Preco = 12.00m });
 
-        Itens.Add(new ItemPedido { Codigo = 7, Categoria = Categoria.PratosPrincipais, Oferecido = true, Descricao = "Filé de Frango", DescricaoEn = "Chicken Breast", Preco = 28.90m });
-        Itens.Add(new ItemPedido { Codigo = 8, Categoria = Categoria.PratosPrincipais, Oferecido = true, Descricao = "Bife à Parmegiana", DescricaoEn = "Parmesan Steak", Preco = 35.00m });
-        Itens.Add(new ItemPedido { Codigo = 9, Categoria = Categoria.PratosPrincipais, Oferecido = true, Descricao = "Salmão", DescricaoEn = "Salmon", Preco = 40.00m });
+    //     Itens.Add(new ItemPedido { Codigo = 7, Categoria = Categoria.PratosPrincipais, Oferecido = true, Descricao = "Filé de Frango", DescricaoEn = "Chicken Breast", Preco = 28.90m });
+    //     Itens.Add(new ItemPedido { Codigo = 8, Categoria = Categoria.PratosPrincipais, Oferecido = true, Descricao = "Bife à Parmegiana", DescricaoEn = "Parmesan Steak", Preco = 35.00m });
+    //     Itens.Add(new ItemPedido { Codigo = 9, Categoria = Categoria.PratosPrincipais, Oferecido = true, Descricao = "Salmão", DescricaoEn = "Salmon", Preco = 40.00m });
 
-        Itens.Add(new ItemPedido { Codigo = 10, Categoria = Categoria.Sobremesas, Oferecido = true, Descricao = "Pudim", DescricaoEn = "Pudding", Preco = 12.00m });
-        Itens.Add(new ItemPedido { Codigo = 11, Categoria = Categoria.Sobremesas, Oferecido = true, Descricao = "Torta de Maçã", DescricaoEn = "Apple Pie", Preco = 14.00m });
-        Itens.Add(new ItemPedido { Codigo = 12, Categoria = Categoria.Sobremesas, Oferecido = true, Descricao = "Mousse de Chocolate", DescricaoEn = "Chocolate Mousse", Preco = 10.00m });
-    }
+    //     Itens.Add(new ItemPedido { Codigo = 10, Categoria = Categoria.Sobremesas, Oferecido = true, Descricao = "Pudim", DescricaoEn = "Pudding", Preco = 12.00m });
+    //     Itens.Add(new ItemPedido { Codigo = 11, Categoria = Categoria.Sobremesas, Oferecido = true, Descricao = "Torta de Maçã", DescricaoEn = "Apple Pie", Preco = 14.00m });
+    //     Itens.Add(new ItemPedido { Codigo = 12, Categoria = Categoria.Sobremesas, Oferecido = true, Descricao = "Mousse de Chocolate", DescricaoEn = "Chocolate Mousse", Preco = 10.00m });
+    // }
 }

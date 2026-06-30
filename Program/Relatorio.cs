@@ -1,73 +1,71 @@
 using System;
+using System.Runtime.InteropServices.Marshalling;
 
 namespace Program;
 
-public class Relatorio
-{
-    public List<Pedido> FiltrarPorPeriodo(List<Pedido> pedidos, DateTime inicio, DateTime fim)
+public abstract class Relatorio
+{   
+    public abstract void RegistrarInformacao(Pedido conteudo);
+    public abstract void RegistrarTitulo(string conteudo);
+
+    public void FiltrarPorPeriodo(List<Pedido> pedidos, DateTime inicio, DateTime fim)
     {
-        var resultado = new List<Pedido>();
+        RegistrarTitulo("===RELATÓRIO DE PEDIDOS POR PERÍODO===");
         foreach (var pedido in pedidos)
         {
             if (pedido.Horario >= inicio && pedido.Horario <= fim)
             {
-                resultado.Add(pedido);
+                RegistrarInformacao(pedido);
             }
         }
-        return resultado;
+        
     }
 
-    public List<Pedido> FiltrarPorCliente(List<Pedido> pedidos, string nome)
+    public void FiltrarPorCliente(List<Pedido> pedidos, string nome)
     {
-        var resultado = new List<Pedido>();
+        RegistrarTitulo("===RELATÓRIO DE PEDIDOS POR CLIENTE===");
         foreach (var pedido in pedidos)
         {
             if (pedido.Cliente != null && pedido.Cliente.Nome == nome)
             {
-                resultado.Add(pedido);
+                RegistrarInformacao(pedido);
             }
         }
-        return resultado;
     }
 
-    public List<Pedido> FiltrarPorClientePeriodo(List<Pedido> pedidos, string nome, DateTime inicio, DateTime fim)
+    public void FiltrarPorClientePeriodo(List<Pedido> pedidos, string nome, DateTime inicio, DateTime fim)
     {
-        var resultado = new List<Pedido>();
+        RegistrarTitulo("===RELATÓRIO DE PEDIDOS POR CLIENTE E PERÍODO===");
         foreach (var pedido in pedidos)
         {
             if (pedido.Cliente != null && pedido.Cliente.Nome == nome && 
                 pedido.Horario >= inicio && pedido.Horario <= fim)
             {
-                resultado.Add(pedido);
+                RegistrarInformacao(pedido);
             }
         }
-        return resultado;
     }
 
-    public List<(int IdPedido, int Quantidade)> CalcularConsumoItem(List<Pedido> pedidos, int codigoItem, out int total)
+    public void CalcularConsumoItem(List<Pedido> pedidos, int codigoItem, out int total)
     {
-        var consumoPorPedido = new List<(int IdPedido, int Quantidade)>();
         total = 0;
-        
         foreach (var pedido in pedidos)
         {
-            ItemPedido? item = null;
-            foreach (var oi in pedido.Itens)
+            ItemPedido item = null;
+            foreach (var i in pedido.Itens)
             {
-                if (oi.Codigo == codigoItem)
+                if (i.Codigo == codigoItem)
                 {
-                    item = oi;
+                    item = i;
                     break;
                 }
             }
-            
+            RegistrarTitulo("===RELATÓRIO DE CONSUMO DE ITEM===");
             if (item != null)
             {
-                consumoPorPedido.Add((pedido.IdPedido, item.Quantidade));
+                RegistrarInformacao(pedido);
                 total += item.Quantidade;
             }
         }
-
-        return consumoPorPedido;
     }
 }

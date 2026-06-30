@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.Json;
 
 namespace Program;
 
@@ -6,26 +7,23 @@ class Program
 {
     static void Main(string[] args)
     {
-        Program programa = new Program();
         Cardapio cardapio = new Cardapio();
-        cardapio.InicializarMock();
+        
+        string cardapioJson = File.ReadAllText("cardapio.json");
+        cardapio = JsonSerializer.Deserialize<Cardapio>(cardapioJson);
+
         List<Pedido> pedidos = new List<Pedido>();
-        List<Pessoa> clientes = new List<Pessoa>
-        {
-            new Pessoa { Nome = "João Silva", Email = "joaosilva@gmail.com" },
-            new Pessoa { Nome = "Maria Oliveira", Email = "mariaoliveira@gmail.com" },
-            new Pessoa { Nome = "Carlos Santos", Email = "carlossantos@gmail.com" },
-            new Pessoa { Nome = "Ana Pereira", Email = "anapereira@gmail.com" },
-            new Pessoa { Nome = "Pedro Costa", Email = "pedrocosta@gmail.com" }
-        };
-        Relatorio relatorio = new Relatorio();
+        
+        string pedidosJson = File.ReadAllText("pedidos.json");
+        pedidos = JsonSerializer.Deserialize<List<Pedido>>(pedidosJson);
 
-        pedidos.Add(new Pedido { Cliente = clientes[0] });
-        pedidos.Add(new Pedido { Cliente = clientes[1] });
-        pedidos.Add(new Pedido { Cliente = clientes[2] });
-        pedidos.Add(new Pedido { Cliente = clientes[3] });
-        pedidos.Add(new Pedido { Cliente = clientes[4] });
-
+        List<Pessoa> clientes = new List<Pessoa>();
+    
+        string clientesJson = File.ReadAllText("clientes.json");
+        clientes = JsonSerializer.Deserialize<List<Pessoa>>(clientesJson);
+        
+        //Relatorio relatorio = new Relatorio();
+        
         Console.WriteLine("1. Português - PT");
         Console.WriteLine("2. English - EN");
         Console.WriteLine("3. Español - ESP");
@@ -115,19 +113,19 @@ class Program
 
                     if (oprel == 1)
                     {
-                        menu.FiltrarPorPeriodo(relatorio, pedidos);
+                        menu.FiltrarPorPeriodo(pedidos);
                     }
                     else if (oprel == 2)
                     {
-                        menu.FiltrarPorCliente(relatorio, pedidos);
+                        menu.FiltrarPorCliente(pedidos);
                     }
                     else if (oprel == 3)
                     {
-                        menu.FiltrarPorClientePeriodo(relatorio, pedidos);
+                        menu.FiltrarPorClientePeriodo(pedidos);
                     }
                     else if (oprel == 4)
                     {
-                        menu.CalcularConsumoItem(relatorio, pedidos);
+                        menu.CalcularConsumoItem(pedidos);
                     }
                     else if (oprel == 0)
                     {
@@ -136,6 +134,14 @@ class Program
                 }
                 else if (opcao == 4)
                 {
+                    string conteudojson = JsonSerializer.Serialize(cardapio);
+                    File.WriteAllText("cardapio.json", conteudojson);
+
+                    conteudojson = JsonSerializer.Serialize(pedidos);
+                    File.WriteAllText("pedidos.json", conteudojson);
+
+                    conteudojson = JsonSerializer.Serialize(clientes);
+                    File.WriteAllText("clientes.json", conteudojson);
                     Console.WriteLine("Até mais!");
                     break;
                 }
@@ -143,15 +149,19 @@ class Program
                 {
                     menu.TrocarIdioma();
                     int novaEscolha;
-                    while (!int.TryParse(Console.ReadLine(), out novaEscolha) || (novaEscolha != 1 && novaEscolha != 2))
+                    while (!int.TryParse(Console.ReadLine(), out novaEscolha) || (novaEscolha != 1 && novaEscolha != 2 && novaEscolha != 3))
                     {
-                        Console.WriteLine("Opção inválida. Digite 1 para Inglês ou 2 para Espanhol:");
+                        Console.WriteLine("Opção inválida. Digite 1 para Português, 2 para Inglês e 3 para Espanhol:");
                     }
                     if (novaEscolha == 1)
                     {
-                        menu = new MenuEn();
+                        menu = new MenuPt();
                     }
                     else if (novaEscolha == 2)
+                    {
+                        menu = new MenuEn();
+                    }
+                    else if (novaEscolha == 3)
                     {
                         menu = new MenuEsp();
                     }
@@ -238,19 +248,19 @@ class Program
 
                     if (oprel == 1)
                     {
-                        menu.FiltrarPorPeriodo(relatorio, pedidos);
+                        menu.FiltrarPorPeriodo(pedidos);
                     }
                     else if (oprel == 2)
                     {
-                        menu.FiltrarPorCliente(relatorio, pedidos);
+                        menu.FiltrarPorCliente(pedidos);
                     }
                     else if (oprel == 3)
                     {
-                        menu.FiltrarPorClientePeriodo(relatorio, pedidos);
+                        menu.FiltrarPorClientePeriodo(pedidos);
                     }
                     else if (oprel == 4)
                     {
-                        menu.CalcularConsumoItem(relatorio, pedidos);
+                        menu.CalcularConsumoItem(pedidos);
                     }
                     else if (oprel == 0)
                     {
@@ -259,6 +269,14 @@ class Program
                 }
                 else if (opcao == 4)
                 {
+                    string conteudojson = JsonSerializer.Serialize(cardapio);
+                    File.WriteAllText("cardapio.json", conteudojson);
+
+                    conteudojson = JsonSerializer.Serialize(pedidos);
+                    File.WriteAllText("pedidos.json", conteudojson);
+
+                    conteudojson = JsonSerializer.Serialize(clientes);
+                    File.WriteAllText("clientes.json", conteudojson);
                     Console.WriteLine("Goodbye!");
                     break;
                 }
@@ -266,15 +284,19 @@ class Program
                 {
                     menu.TrocarIdioma();
                     int novaEscolha;
-                    while (!int.TryParse(Console.ReadLine(), out novaEscolha) || (novaEscolha != 1 && novaEscolha != 2))
+                    while (!int.TryParse(Console.ReadLine(), out novaEscolha) || (novaEscolha != 1 && novaEscolha != 2 && novaEscolha != 3))
                     {
-                        Console.WriteLine("Invalid option. Enter 1 for Portuguese or 2 for Spanish:");
+                        Console.WriteLine("Invalid option. Enter 1 for Portuguese, 2 for English or 3 for Spanish:");
                     }
                     if (novaEscolha == 1)
                     {
                         menu = new MenuPt();
                     }
                     else if (novaEscolha == 2)
+                    {
+                        menu = new MenuEn();
+                    }
+                    else if (novaEscolha == 3)
                     {
                         menu = new MenuEsp();
                     }
@@ -359,19 +381,19 @@ class Program
 
                     if (oprel == 1)
                     {
-                        menu.FiltrarPorPeriodo(relatorio, pedidos);
+                        menu.FiltrarPorPeriodo(pedidos);
                     }
                     else if (oprel == 2)
                     {
-                        menu.FiltrarPorCliente(relatorio, pedidos);
+                        menu.FiltrarPorCliente(pedidos);
                     }
                     else if (oprel == 3)
                     {
-                        menu.FiltrarPorClientePeriodo(relatorio, pedidos);
+                        menu.FiltrarPorClientePeriodo(pedidos);
                     }
                     else if (oprel == 4)
                     {
-                        menu.CalcularConsumoItem(relatorio, pedidos);
+                        menu.CalcularConsumoItem(pedidos);
                     }
                     else if (oprel == 0)
                     {
@@ -380,6 +402,14 @@ class Program
                 }
                 else if (opcao == 4)
                 {
+                    string conteudojson = JsonSerializer.Serialize(cardapio);
+                    File.WriteAllText("cardapio.json", conteudojson);
+
+                    conteudojson = JsonSerializer.Serialize(pedidos);
+                    File.WriteAllText("pedidos.json", conteudojson);
+
+                    conteudojson = JsonSerializer.Serialize(clientes);
+                    File.WriteAllText("clientes.json", conteudojson);
                     Console.WriteLine("Gracias por usar el programa!");
                     break;
                 }
@@ -387,9 +417,9 @@ class Program
                 {
                     menu.TrocarIdioma();
                     int novaEscolha;
-                    while (!int.TryParse(Console.ReadLine(), out novaEscolha) || (novaEscolha != 1 && novaEscolha != 2))
+                    while (!int.TryParse(Console.ReadLine(), out novaEscolha) || (novaEscolha != 1 && novaEscolha != 2 && novaEscolha != 3))
                     {
-                        Console.WriteLine("Opción inválida. Ingrese 1 para Portugués o 2 para Inglés:");
+                        Console.WriteLine("Opción inválida. Ingrese 1 para Portugués, 2 para Inglés o 3 para Español:");
                     }
                     if (novaEscolha == 1)
                     {
@@ -398,6 +428,10 @@ class Program
                     else if (novaEscolha == 2)
                     {
                         menu = new MenuEn();
+                    }
+                    else if (novaEscolha == 3)
+                    {
+                        menu = new MenuEsp();
                     }
                 }
             } while (opcao != 0);
