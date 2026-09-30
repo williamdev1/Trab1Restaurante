@@ -540,4 +540,9 @@ public class MenuPt : IMenu
         // }
         // Console.WriteLine($"Total consumido: {total}");
     }
+
+    public void Sair()
+    {
+        Console.WriteLine("Saindo do programa. Até logo!");
+    }
 }

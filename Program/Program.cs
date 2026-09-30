@@ -7,19 +7,24 @@ class Program
 {
     static void Main(string[] args)
     {
+        string diretorioDados = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..", "..", ".."));
+        string caminhoCardapio = Path.Combine(diretorioDados, "cardapio.json");
+        string caminhoPedidos = Path.Combine(diretorioDados, "pedidos.json");
+        string caminhoClientes = Path.Combine(diretorioDados, "clientes.json");
+
         Cardapio cardapio = new Cardapio();
         
-        string cardapioJson = File.ReadAllText("cardapio.json");
+        string cardapioJson = File.ReadAllText(caminhoCardapio);
         cardapio = JsonSerializer.Deserialize<Cardapio>(cardapioJson);
 
         List<Pedido> pedidos = new List<Pedido>();
         
-        string pedidosJson = File.ReadAllText("pedidos.json");
+        string pedidosJson = File.ReadAllText(caminhoPedidos);
         pedidos = JsonSerializer.Deserialize<List<Pedido>>(pedidosJson);
 
         List<Pessoa> clientes = new List<Pessoa>();
     
-        string clientesJson = File.ReadAllText("clientes.json");
+        string clientesJson = File.ReadAllText(caminhoClientes);
         clientes = JsonSerializer.Deserialize<List<Pessoa>>(clientesJson);
         
         //Relatorio relatorio = new Relatorio();
@@ -135,14 +140,14 @@ class Program
                 else if (opcao == 4)
                 {
                     string conteudojson = JsonSerializer.Serialize(cardapio);
-                    File.WriteAllText("cardapio.json", conteudojson);
+                    File.WriteAllText(caminhoCardapio, conteudojson);
 
                     conteudojson = JsonSerializer.Serialize(pedidos);
-                    File.WriteAllText("pedidos.json", conteudojson);
+                    File.WriteAllText(caminhoPedidos, conteudojson);
 
                     conteudojson = JsonSerializer.Serialize(clientes);
-                    File.WriteAllText("clientes.json", conteudojson);
-                    Console.WriteLine("Até mais!");
+                    File.WriteAllText(caminhoClientes, conteudojson);
+                    menu.Sair();
                     break;
                 }
                 else if (opcao == 5)
@@ -270,14 +275,14 @@ class Program
                 else if (opcao == 4)
                 {
                     string conteudojson = JsonSerializer.Serialize(cardapio);
-                    File.WriteAllText("cardapio.json", conteudojson);
+                    File.WriteAllText(caminhoCardapio, conteudojson);
 
                     conteudojson = JsonSerializer.Serialize(pedidos);
-                    File.WriteAllText("pedidos.json", conteudojson);
+                    File.WriteAllText(caminhoPedidos, conteudojson);
 
                     conteudojson = JsonSerializer.Serialize(clientes);
-                    File.WriteAllText("clientes.json", conteudojson);
-                    Console.WriteLine("Goodbye!");
+                    File.WriteAllText(caminhoClientes, conteudojson);
+                    menu.Sair();
                     break;
                 }
                 else if (opcao == 5)
@@ -403,14 +408,14 @@ class Program
                 else if (opcao == 4)
                 {
                     string conteudojson = JsonSerializer.Serialize(cardapio);
-                    File.WriteAllText("cardapio.json", conteudojson);
+                    File.WriteAllText(caminhoCardapio, conteudojson);
 
                     conteudojson = JsonSerializer.Serialize(pedidos);
-                    File.WriteAllText("pedidos.json", conteudojson);
+                    File.WriteAllText(caminhoPedidos, conteudojson);
 
                     conteudojson = JsonSerializer.Serialize(clientes);
-                    File.WriteAllText("clientes.json", conteudojson);
-                    Console.WriteLine("Gracias por usar el programa!");
+                    File.WriteAllText(caminhoClientes, conteudojson);
+                    menu.Sair();
                     break;
                 }
                 else if (opcao == 5)

@@ -24,4 +24,5 @@ public interface IMenu
     public void FiltrarPorCliente(List<Pedido> pedidos);
     public void FiltrarPorClientePeriodo(List<Pedido> pedidos);
     public void CalcularConsumoItem(List<Pedido> pedidos);
+    public void Sair();
 }

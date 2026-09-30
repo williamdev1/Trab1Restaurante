@@ -526,5 +526,8 @@ public class MenuEn : IMenu
         // }
         // Console.WriteLine($"Total consumed: {total}");
     }
-    
+    public void Sair()
+    {
+        Console.WriteLine("Exiting the program. Goodbye!");
+    }
 }
